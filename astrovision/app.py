@@ -5,6 +5,16 @@ Run: streamlit run app.py
 
 from __future__ import annotations
 
+import os, sys
+_HERE = os.path.dirname(os.path.abspath(__file__))
+if _HERE not in sys.path:
+    sys.path.insert(0, _HERE)
+# When this file is loaded as a page inside the unified streamlit_app.py,
+# Python caches "pipeline"/"synthetic"/"detector" from whichever project
+# was visited first. Clear them so this page imports its OWN local copies.
+for _stale in ("pipeline", "synthetic", "detector"):
+    sys.modules.pop(_stale, None)
+
 import io
 import numpy as np
 import cv2
@@ -21,7 +31,10 @@ from pipeline import (
 from synthetic import make_star_field, make_satellite_streaked_frame
 
 
-st.set_page_config(page_title="AstroVision — Star & Sky Segmenter", layout="wide")
+try:
+    st.set_page_config(page_title="AstroVision — Star & Sky Segmenter", layout="wide")
+except Exception:
+    pass  # parent multipage app already set the page config
 st.title("AstroVision")
 st.caption(
     "Module 4 multi-stage astrophotography pipeline — point detection (LoG), "

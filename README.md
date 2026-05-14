@@ -36,16 +36,25 @@ own and deploy individually to Streamlit Cloud.
 | 9 | [traffic_signal_detection](traffic_signal_detection/) — Traffic-Light Classifier | M4 | HSV thresholding + circularity filter | Asif |
 | 10 | [asteroid_detection](asteroid_detection/) — Moving-Object Detector | M4 | ECC alignment + image differencing | Sudeep |
 
-## Run any project
+## Run everything as ONE Streamlit app
 
-Each project is independent. From the project's folder:
+`streamlit_app.py` at the repo root is a multipage app that exposes every
+project in a single sidebar. Local:
 
 ```bash
 pip install -r requirements.txt
-streamlit run app.py
+streamlit run streamlit_app.py
 ```
 
-(On Windows: `py -m streamlit run app.py` if `streamlit` isn't on your PATH.)
+(On Windows: `py -m streamlit run streamlit_app.py` if `streamlit` isn't on your PATH.)
+
+Or run a single project on its own from its own folder:
+
+```bash
+cd radiolens
+pip install -r requirements.txt
+streamlit run app.py
+```
 
 Every project bundles a **synthetic image generator** (`synthetic.py`) so a
 demo always works without external data. The Streamlit sidebar exposes a
@@ -72,15 +81,19 @@ The split exists so the algorithms (`pipeline.py` / `detector.py`) are
 importable, unit-testable, and viva-defendable as standalone code; the
 Streamlit UI in `app.py` is just a thin wrapper.
 
-## Deploy
+## Deploy — one click for all 10
 
-Each project is a separate **[Streamlit Community Cloud](https://share.streamlit.io)** deployment:
+The recommended path: **a single [Streamlit Community Cloud](https://share.streamlit.io) deployment** that exposes every project in one URL with sidebar navigation.
 
 1. Push this repo to GitHub.
-2. share.streamlit.io → New app.
-3. Repo: this repo. Branch: main. Main file path: `<project>/app.py`.
-4. Advanced → Python 3.11 (some wheels lag on the newest Python).
-5. Repeat for each project you want online.
+2. share.streamlit.io → **New app**.
+3. Repo: `Mohdjariullah/dip-projects`. Branch: `main`. **Main file path: `streamlit_app.py`** (the root one — not the per-project ones).
+4. Advanced → Python 3.11.
+5. Deploy. Your URL now serves all 10 projects with a sidebar to switch between them.
+
+If you'd rather deploy a single project as its own app (e.g. for separate
+viva-day URLs), use `<project>/app.py` as the main file path instead — every
+project's `app.py` runs standalone as well as inside the unified app.
 
 Use `opencv-python-headless` (not `opencv-python`) on Streamlit Cloud — it
 ships without GUI libs and is ~5× smaller.

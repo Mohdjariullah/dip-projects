@@ -66,27 +66,40 @@ def landing() -> None:
     )
 
 
+# NB: every `st.Page("<proj>/app.py")` defaults its URL slug to the file
+# basename ("app"), so without explicit `url_path` all 10 pages collide.
 pages = {
     "Home": [
-        st.Page(landing, title="Portfolio overview", icon="🏠", default=True),
+        st.Page(landing, title="Portfolio overview", icon="🏠",
+                url_path="home", default=True),
     ],
     "Module 2 — Intensity & Thresholding": [
-        st.Page("radiolens/app.py", title="RadioLens — X-Ray Studio", icon="🦴"),
-        st.Page("docuclean/app.py", title="DocuClean Pro — Doc Binarizer", icon="📄"),
+        st.Page("radiolens/app.py", title="RadioLens — X-Ray Studio",
+                icon="🦴", url_path="radiolens"),
+        st.Page("docuclean/app.py", title="DocuClean Pro — Doc Binarizer",
+                icon="📄", url_path="docuclean"),
     ],
     "Module 3 — Restoration": [
-        st.Page("noiselab/app.py", title="NoiseLab — Noise & Restoration", icon="📡"),
-        st.Page("orbitrestore/app.py", title="OrbitRestore — Satellite Restoration", icon="🛰️"),
+        st.Page("noiselab/app.py", title="NoiseLab — Noise & Restoration",
+                icon="📡", url_path="noiselab"),
+        st.Page("orbitrestore/app.py", title="OrbitRestore — Satellite Restoration",
+                icon="🛰️", url_path="orbitrestore"),
     ],
     "Module 4 — Segmentation": [
-        st.Page("smartscan/app.py", title="SmartScan ID — Document Fields", icon="🪪"),
-        st.Page("astrovision/app.py", title="AstroVision — Astrophotography", icon="🌌"),
-        st.Page("traffic_signal_detection/app.py", title="Traffic Signal Detection", icon="🚦"),
-        st.Page("asteroid_detection/app.py", title="Asteroid Detection", icon="☄️"),
+        st.Page("smartscan/app.py", title="SmartScan ID — Document Fields",
+                icon="🪪", url_path="smartscan"),
+        st.Page("astrovision/app.py", title="AstroVision — Astrophotography",
+                icon="🌌", url_path="astrovision"),
+        st.Page("traffic_signal_detection/app.py", title="Traffic Signal Detection",
+                icon="🚦", url_path="traffic"),
+        st.Page("asteroid_detection/app.py", title="Asteroid Detection",
+                icon="☄️", url_path="asteroid"),
     ],
     "Module 5 — Colour & Descriptors": [
-        st.Page("agroleaf/app.py", title="AgroLeaf — HSI Disease Analyzer", icon="🌿"),
-        st.Page("formshape/app.py", title="FormShape — Defect Inspector", icon="⚙️"),
+        st.Page("agroleaf/app.py", title="AgroLeaf — HSI Disease Analyzer",
+                icon="🌿", url_path="agroleaf"),
+        st.Page("formshape/app.py", title="FormShape — Defect Inspector",
+                icon="⚙️", url_path="formshape"),
     ],
 }
 

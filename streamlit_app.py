@@ -22,17 +22,12 @@ import sys
 import streamlit as st
 
 
-# Make sure every project subfolder is on sys.path so each app.py can do
-# `from pipeline import ...` without caring about the working directory.
-_ROOT = os.path.dirname(os.path.abspath(__file__))
-for _proj in (
-    "radiolens", "docuclean", "agroleaf", "noiselab",
-    "smartscan", "formshape", "orbitrestore", "astrovision",
-    "traffic_signal_detection", "asteroid_detection",
-):
-    _path = os.path.join(_ROOT, _proj)
-    if os.path.isdir(_path) and _path not in sys.path:
-        sys.path.insert(0, _path)
+# NOTE: we deliberately do NOT pre-load every project's directory onto
+# sys.path here. Every project has its own `pipeline.py`/`synthetic.py`, so
+# the union of all 10 dirs on sys.path means `import pipeline` resolves to
+# whichever project happens to appear first in path order — which is rarely
+# the page the user is on. Each page's own shim at the top of its app.py
+# handles sys.path management on a per-page basis instead.
 
 
 # Landing-page content for when no project is selected yet

@@ -7,11 +7,14 @@ from __future__ import annotations
 
 import os, sys
 _HERE = os.path.dirname(os.path.abspath(__file__))
-if _HERE not in sys.path:
-    sys.path.insert(0, _HERE)
-# When this file is loaded as a page inside the unified streamlit_app.py,
-# Python caches "pipeline"/"synthetic"/"detector" from whichever project
-# was visited first. Clear them so this page imports its OWN local copies.
+# UNCONDITIONALLY put this project'''s dir at the FRONT of sys.path. Any
+# previously-visited project'''s dir has its own pipeline.py/synthetic.py
+# of the same name, so it must NOT shadow ours. Remove any prior copy and
+# re-insert at position 0.
+sys.path[:] = [p for p in sys.path if p != _HERE]
+sys.path.insert(0, _HERE)
+# Drop cached "pipeline"/"synthetic"/"detector" entries so the next import
+# loads THIS project'''s versions, not whichever was visited first.
 for _stale in ("pipeline", "synthetic", "detector"):
     sys.modules.pop(_stale, None)
 
